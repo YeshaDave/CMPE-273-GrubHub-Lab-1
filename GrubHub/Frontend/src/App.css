@@ -1,0 +1,121 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.Navbar {
+  display: block;
+  width: 100px;
+  height: 21px;
+  background-image: url(./images/logo-full-primary.svg);
+  background-repeat: no-repeat; 
+  padding-left: 20px;
+  padding-top: 40px
+}
+
+.Navbar-div {
+  width: 100%;
+  height: 60px;
+  justify-content: center;
+  align-items: center;
+  padding-top: 20px
+}
+
+.bag-icon {
+  width: 80px;
+  height: 40px;
+  padding-right: 20px;
+  src: "https://www.google.com/url?sa=i&source=images&cd=&ved=2ahUKEwi7xPrHo93kAhXPHDQIHfqXCZkQjRx6BAgBEAQ&url=https%3A%2F%2Ffreeiconshop.com%2Ficon%2Fshopping-bag-icon-glyph%2F&psig=AOvVaw3ffoqt6p31CQLCqXVRc1IP&ust=1568995940133140";
+}
+
+.outer-box {
+  border: 1px #E6E5F4;
+  box-shadow: 0 0 8px #E6E5F4;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 50px;
+  padding-top: 20px
+}
+
+.profile-div {
+  border: 1px #E6E5F4;
+  box-shadow: 0 0 8px #E6E5F4;
+  height: 100%
+}
+
+.button {
+  background-color: #0071EA;
+}
+
+.login-button {
+  background-color: #E62334;
+}
+
+.title-font {
+  font-family: graphik;
+  font-weight: 400;
+  font-size: 19.1px;
+  line-height: 1.40
+}
+
+.button-img {
+  align-content: flex-start;
+  left: 10px;
+  position: absolute;
+}
+
+.div-text {
+  text-align: center;
+}
+
+.div-text2 {
+  text-align: right;
+}
+
+.img-size {
+  height: auto;
+  width: auto
+}
+
+.font-bold {
+  font-weight: bold;
+  font-weight: 900
+}
+
+.searchbar {
+  background-image: url("https://img.icons8.com/material-outlined/15/000000/search.png");
+  background-repeat: no-repeat;
+  background-size: 20px 20px;
+  width: 200px;
+  border-radius: 5%
+}
+
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
