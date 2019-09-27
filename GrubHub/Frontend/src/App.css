@@ -84,6 +84,12 @@
   position: absolute;
 }
 
+
+.msg-text {
+  text-align: center;
+  color : #FC0D1B;
+}
+
 .div-text {
   text-align: center;
 }

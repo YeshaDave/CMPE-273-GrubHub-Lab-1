@@ -4,8 +4,11 @@ import Navbar from './navbar/Navbar';
 import BuyerSignup from './signup/BuyerSignup';
 import BuyerLogin from './login/BuyerLogin';
 import OwnerLogin from './login/OwnerLogin';
-import OwnerSignup from './signup/OwnerSignup';
-import BuyerProfile from './profile/BuyerProfile'
+import OwnerProfile from './profile/OwnerProfile';
+import OwnerSignin from './signup/OwnerSignin';
+import BuyerProfile from './profile/BuyerProfile';
+import Editname from './profile/Editname';
+import EditPhone from './profile/EditPhone';
 
 class Main extends Component {
     render(){
@@ -16,8 +19,11 @@ class Main extends Component {
                 <Route path="/bsignup" component={BuyerSignup}/>
                 <Route path="/blogin" component={BuyerLogin}/>
                 <Route path="/ologin" component={OwnerLogin}/>
-                <Route path="/osignup" component={OwnerSignup}/>
+                <Route path="/osignin" component={OwnerSignin}/>
                 <Route path="/bprofile" component={BuyerProfile}/>
+                <Route path="/oprofile" component={OwnerProfile}/>
+                <Route path="/editName" component={Editname}/>
+                <Route path="/EditPhone" component={EditPhone}/>
             </div>
         )
     }

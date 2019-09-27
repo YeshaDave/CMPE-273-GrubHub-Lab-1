@@ -7,7 +7,20 @@ class Navbar extends Component {
 
 
     render(){
-
+        var dispName = null;
+        var link1 = null;
+        var link2 = null;
+        console.log("role",localStorage.getItem('role'))
+        console.log("navbar",localStorage.getItem('fName'))
+        if(localStorage.getItem('role') == "buyer"){
+            dispName = localStorage.getItem('fName')
+            link1 = "/bprofile"
+            link2 = "/blogin"
+        }
+        else if(localStorage.getItem('role') == "owner"){
+            dispName = localStorage.getItem('name')
+            link2 = "/ologin"
+        }
         return(
             <div>
                 <nav class="Navbar-div">
@@ -23,19 +36,23 @@ class Navbar extends Component {
                     <ul class="nav navbar-nav">
                         
                     </ul>
+                    
                     <ul class="nav navbar-nav navbar-right">
                     <li class="bag-icon">
-                    <div>Hi, Yesha</div>
-                    <div><img src="https://img.icons8.com/color/10/000000/expand-arrow.png"></img></div>
+                    <div><a href={link1}>
+                    <div>Hi, {dispName}</div>
+                    <div><img src="https://img.icons8.com/color/10/000000/expand-arrow.png"></img></div></a>
+                    </div>
                     </li>
                     <li>
-                    
+                    <div>  
+                    <a href={link2}>Logout</a>
+                    </div>
                     </li>
                     <li>
                     <div>  
                     <img src="https://img.icons8.com/ios-glyphs/20/000000/shopping-bag.png"></img>
                     </div>
-                    
                     </li>
                     </ul>
                     </div>
@@ -50,4 +67,6 @@ class Navbar extends Component {
 }
 
 export default Navbar;
+
+
 
