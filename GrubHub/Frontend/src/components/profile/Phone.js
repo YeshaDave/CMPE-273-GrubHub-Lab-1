@@ -16,6 +16,7 @@ class Phone extends Component {
         this.handleProfileClick = this.handleProfileClick.bind(this);
         this.handlePictureClick = this.handlePictureClick.bind(this);
         this.handlePhoneClick = this.handlePhoneClick.bind(this);
+        this.state = {isComponent: ""};
       }
 
       handleProfileClick() {
