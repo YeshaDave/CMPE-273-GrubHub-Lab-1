@@ -1,0 +1,52 @@
+.Calculations {
+    text-align: center;
+    float: left;
+    position: relative;
+    display:flex
+}
+
+/* .Buttons{
+    height: 40px;
+    width: 40px
+} */
+
+.title{ 
+    margin-bottom: 10px; 
+    text-align:center; 
+    width: 180px; 
+    color:green; 
+    border: solid black 2px; 
+    } 
+
+.button1
+    { 
+    background-color:#2FA2A3; 
+    color: black; 
+    border: solid black 2px; 
+    height: 40px;
+    width: 90px;
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-left: 0px;
+    margin-right: 0px
+    } 
+
+.input{
+    width: 160px !important;
+}
+
+.button2
+    { 
+    background-color:#4B74C0; 
+    color: black; 
+    border: solid black 2px; 
+    height: 40px;
+    width: 180px
+    } 
+
+.text1
+    { 
+    background-color:white; 
+    border: solid black 2px; 
+    width:100% 
+    } 
