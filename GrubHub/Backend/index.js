@@ -40,8 +40,9 @@ var loginController = require('./controllers/loginController');
 var signupController = require('./controllers/signupController');
 var editController = require('./controllers/editController');
 var editOwnerController = require('./controllers/editOwnerController');
-var ownerLogin1 = require('./controllers/ownerLogin1')
-
+var ownerLogin1 = require('./controllers/ownerLogin1');
+var menuList = require('./controllers/menu');
+var orderController = require('./controllers/orderController');
 
 
 app.post('/buyerlogin',loginController.buyerlogin);
@@ -57,6 +58,11 @@ app.post('/editOwnerPhone',editOwnerController.editOwnerPhone);
 app.post('/editZip',editOwnerController.editZip);
 app.post('/editCuisine',editOwnerController.editCuisine);
 app.post('/editRestName',editOwnerController.editRestName);
+app.post('/getMenu',menuList.getMenu);
+app.post('/getSections',menuList.getSections);
+app.post('/getOldOrders',orderController.getOldOrders);
+app.post('/addSection',menuList.addSection);
+app.post('/addtoCart',menuList.addtoCart);
 
 // app.post('/ownerlogin',function(req,res){loginController.ownerlogin});
 // app.post('/buyerSignup',function(req,res){signupController.buyerSignup});
