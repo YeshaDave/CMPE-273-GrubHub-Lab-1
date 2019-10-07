@@ -309,51 +309,42 @@ exports.addtoCart = (req, res) => {
     console.log("ADD TO CART")
 
     var item = {
-        "number" : req.body.itemList,
-        "rName": req.body.rName
+        "items" : req.body.itemList,
+        "price": req.body.total,
+        "status": "new",
     }
 
-    console.log("REQUEST",req.body.itemList)
+   
 
-    console.log("ITEM NAME",item.number)
-
-    var items = [];
-    items = req.body.itemList.split(",")
-    console.log(items);
     
-   // var sql = "SELECT * FROM sections WHERE section = " + mysql.escape(item.section) + ";"
-    //console.log(item.item)
-  
-    //connection.query(sql, function (err, results, fields) {
-        // if (results.length != 0) {
-        //     res.status(204, {
-        //         'Content-Type': 'application/json'
-        //     });
-        //     res.send("Item exixts");
-        // }
-        // else {
-    //        var sql1 = "INSERT INTO sections SET " + mysql.escape(item);
-    //         console.log(sql1)
-    //         connection.query(sql1, function (err, results, fields) {
-    //             if (err) {
-    //                 console.log("error")
-    //                 res.status(200, {
-    //                     'Content-Type': 'application/json'
-    //                 });
-    //                 console.log(err);
-    //                 res.send("error");
-    //             }
+    
+    console.log(items);
 
-    //             else {
-    //                 console.log("success")
-    //                 res.status(201, {
-    //                     'Content-Type': 'application/json'
-    //                 });
-    //                 res.send("Success");
-    //             }
+    //var sql1 = 
+
+    var sql = "INSERT INTO `grubhub`.`order` (`bEmail`, `rName`, `items`, `total`, `status`, `address`) VALUES ("+ mysql.escape(email)+", "+ mysql.escape(rName)+", "+ mysql.escape(items)+", "+ mysql.escape(total)+", "+ mysql.escape(status)+", "+ mysql.escape(address)+");"
+
+            console.log(sql)
+            connection.query(sql, function (err, results, fields) {
+                if (err) {
+                    console.log("error")
+                    res.status(200, {
+                        'Content-Type': 'application/json'
+                    });
+                    console.log(err);
+                    res.send("error");
+                }
+
+                else {
+                    console.log("success")
+                    res.status(201, {
+                        'Content-Type': 'application/json'
+                    });
+                    res.send("Success");
+                }
             
-    //     }
-    // )
+        }
+    )
 }
 
 
