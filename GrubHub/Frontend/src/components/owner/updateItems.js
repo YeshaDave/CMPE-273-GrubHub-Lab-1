@@ -48,7 +48,7 @@ class updateItems extends Component {
         console.log(this.state.section)
         const data = {
             section : this.state.section,
-           // rName : localStorage.getItem('rName')
+           // rName : sessionStorage.getItem('rName')
         }
         console.log(data)
         axios.post('http://localhost:3001/addSection',data)

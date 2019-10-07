@@ -6,23 +6,7 @@ var app = express();
 //var cors = require('cors');
 // app.set('view engine', 'ejs');
 var mysql = require('mysql');
-
-
-var connection = mysql.createConnection({
-    host    : "database-1.cjzfppa66uuh.us-east-1.rds.amazonaws.com",
-    user    : "admin",
-    password: "yesha123",
-    port    : "3306",
-    database : "grubhub"
-});
-
-connection.connect(function(err) {
-    if (err) {
-      return console.error('error: ' + err.message);
-    }
-    console.log('Connected to the MySQL server.');
-    
-  });
+var connection = require('./config')
 
 
   exports.editOwnerPhone = (req, res) => {

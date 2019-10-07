@@ -40,7 +40,7 @@ class EditPhone extends Component {
         e.preventDefault();
         const data = {
             phone : this.state.phone,
-            email : localStorage.getItem('email')
+            email : sessionStorage.getItem('email')
         }
         console.log(data);
         console.log("inside edit phone");
@@ -69,8 +69,8 @@ class EditPhone extends Component {
 
     render() {
 
-        var phone = localStorage.getItem('phone')
-        // var email = localStorage.getItem('email')
+        var phone = sessionStorage.getItem('phone')
+        // var email = sessionStorage.getItem('email')
         console.log(phone)
 
         const isComponent = this.state.isComponent;

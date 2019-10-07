@@ -3,8 +3,20 @@ import '../../App.css';
 //import axios from 'axios';
 //import cookie from 'react-cookies';
 //import {Redirect} from 'react-router';
+import Editname from './Editname'
 
 class BuyerProfile extends Component {
+
+    constructor(){
+        super();
+        this.state = {  
+            isComponent : "",
+            profilePicture: "",
+            profile: "",
+            phone: ""
+        }
+        // this.handleChange = this.handleChange.bind(this);
+    }  
 
 
     pictureChangeHandler = (e) => {
@@ -25,6 +37,10 @@ class BuyerProfile extends Component {
         })
     }
 
+    
+
+       
+
     render() {
 
         let profilePicture = () => {
@@ -43,28 +59,26 @@ class BuyerProfile extends Component {
                 <div><h4 class="font-bold">Your Account</h4><br/>
                 <h5 class="font-bold">Name</h5>
                 </div>
+                </div>
+                )
+                }
+        //window.location.reload(false);
+        const isComponent = this.state.isComponent;
+        console.log(isComponent);
+        let Contents = null;
+   
+            Contents = (
+            <Editname/>);
 
-                <div>
-                <h5 class="font-bold">Email</h5>
-                </div>
-                <div>
-                <h5 class="font-bold">Password</h5>
-                </div>
-                </div>
-            )
-        }
+        // else if(isComponent == "picture"){
+        //     Contents = (
+        //     <EditPicture/>);
+        // }
 
-        let buyerPhone = () => {
-            return(
-                <div>
-                    <h4 class="font-bold">Phone Number</h4><br/>
-                    <h5 class="font-bold">Home<br/>
-                    6692789950
-                    </h5>
-                </div>
-            )
-        }
-
+        // else if(isComponent == "phone"){
+        //     Contents = (
+        //     <EditPhone/>);
+        // }
 
 
         return(
@@ -75,9 +89,11 @@ class BuyerProfile extends Component {
                 </div>
                 <div class="col-md-3 profile-div">
                 <h3 class="font-bold">Your Account</h3><br/>
-                <h5 class="font-bold" id="profilePicture" onChange = {this.pictureChangeHandler}><a>Profile Picture</a></h5><br/>
-                <h5 class="font-bold" id="profile" onChange = {this.profileChangeHandler}><a>Profile</a></h5><br/>
-                <h5 class="font-bold" id="phone" onChange = {this.phoneChangeHandler}><a>Phone</a></h5><br/>
+                <h5 class="font-bold" id="profilePicture" ><div onClick={this.handlePictureClick}>Profile Picture</div></h5><br/>
+                <h5 class="font-bold" id="profile" ><div><a href="/bprofile">Profile</a></div></h5><br/>
+                <h5 class="font-bold" id="phone" ><div><a href="/phone">Phone</a></div></h5><br/>
+                <h5 class="font-bold" id="pOrders" ><div><a href="/upcomingOrders">Past Orders</a></div></h5><br/>
+                <h5 class="font-bold" id="uOrders" ><div><a href="/pastOrders">Upcoming Orders</a></div></h5><br/>
                 <h5>
                     <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
                 </h5>
@@ -86,40 +102,11 @@ class BuyerProfile extends Component {
                 <div></div>
 
                 <div class="col-md-8 profile-div">
-                    <div>
-                    <div>
-                    <h4 class="font-bold">Profile Picture</h4>
-                    <img></img> 
-                    </div>
-                    </div>
-                    
-                    <div>
-                    <div><h4 class="font-bold">Your Account</h4><br/>
-                     <h5 class="font-bold">Name</h5>
-                    </div>
-
-                     <div>
-                    <h5 class="font-bold">Email</h5>
-                    </div>
-                    <div>
-                    <h5 class="font-bold">Password</h5>
-                    </div>
-                    </div>
-                   
-                   
-                    <div>
-                    <div>
-                    <h4 class="font-bold">Phone Number</h4><br/>
-                    <h5 class="font-bold">Home<br/>
-                    6692789950
-                    </h5>
-                    </div>
-                    </div>
+                    <Editname/>
                    
                 </div>
             </div>
         )
-    }
+        }
 }
-
 export default BuyerProfile;

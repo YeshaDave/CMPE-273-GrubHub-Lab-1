@@ -15,6 +15,7 @@ class Editname extends Component {
         this.handleNameClick = this.handleNameClick.bind(this);
         this.handleEmailClick = this.handleEmailClick.bind(this);
         this.handlePasswordClick = this.handlePasswordClick.bind(this);
+        this.editName = this.editName.bind(this)
         this.state = {isComponent: ""};
       }
 
@@ -52,13 +53,13 @@ class Editname extends Component {
 
 
       editName = (e) => {
-        //e.preventDefault();
+        e.preventDefault();
         const data = {
             firstname : this.state.firstname,
             lastname : this.state.lastname,
-            email : localStorage.getItem('email')
+            email : sessionStorage.getItem('bEmail')
         }
-        console.log(data);
+        console.log("Data",data);
         console.log("inside edit phone");
         //set the with credentials to true
         axios.defaults.withCredentials = true;
@@ -70,6 +71,7 @@ class Editname extends Component {
                     this.setState({
                         authFlag : true
                     })
+                    sessionStorage.setItem('bName',this.state.firstname)
                 }
                 else if(response.status === 200){
                     this.setState({
@@ -88,7 +90,7 @@ class Editname extends Component {
         //e.preventDefault();
         const data = {
             email1 : this.state.email,
-            email2 : localStorage.getItem('email')
+            email2 : sessionStorage.getItem('email')
         }
         console.log(data);
         console.log("inside edit phone");
@@ -123,9 +125,9 @@ class Editname extends Component {
         let Contents;
 
 
-        var fName = localStorage.getItem('fName')
-        var lName = localStorage.getItem('lName')
-        var email = localStorage.getItem('email')
+        var fName = sessionStorage.getItem('fName')
+        var lName = sessionStorage.getItem('lName')
+        var email = sessionStorage.getItem('email')
 
         if(isComponent == "name"){
             Contents = (
@@ -214,35 +216,3 @@ class Editname extends Component {
 }
 
 export default Editname;
-
-
-
-// renderFieldText(field) {
-//     const { meta: { touched, error } } = field;
-//     const className = `form-group ${touched && error ? "has-danger" : ""}`;
-
-//     return (
-//         <div className={className}>
-//             <label>{field.label}</label>
-//             <input className="form-control login-signup" type="text" {...field.input}/>
-//             <div className="text-help">
-//                 {touched ? error : ""}
-//             </div>
-//         </div>
-//     );
-// }
-
-// renderFieldPassword(field) {
-//     const { meta: { touched, error } } = field;
-//     const className = `form-group ${touched && error ? "has-danger" : ""}`;
-
-//     return (
-//         <div className={className}>
-//             <label>{field.label}</label>
-//             <input className="form-control login-signup" type="password" {...field.input}   style={{backgroundColor:"#75BDA1",opacity:"1", height:"50px", borderColor:"#40896D", }}/>
-//             <div className="text-help">
-//                 {touched ? error : ""}
-//             </div>
-//         </div>
-//     );
-// }

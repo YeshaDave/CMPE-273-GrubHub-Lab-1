@@ -41,7 +41,7 @@ exports.ownerlogin = (req, res) => {
     console.log(sql1)
     connection.query(sql1, function (err, results1) {
         if (err) {
-            console.log("user does not exist")
+            console.log("Helllloooo user does not exist")
             callback(err, " User does not exist ... ")
         } else if (results1.length > 0) {
             // var v1 = crypt.compareHash(password1)
@@ -78,7 +78,7 @@ exports.ownerlogin = (req, res) => {
             }
         }
         else {
-            console.log("user does not exist");
+            console.log("hey user does not exist");
             res.writeHead(205, {
                 'Content-Type': 'application/json'
             });

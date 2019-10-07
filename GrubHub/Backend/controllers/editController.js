@@ -6,24 +6,7 @@ var app = express();
 //var cors = require('cors');
 // app.set('view engine', 'ejs');
 var mysql = require('mysql');
-
-
-var connection = mysql.createConnection({
-    host    : "database-1.cjzfppa66uuh.us-east-1.rds.amazonaws.com",
-    user    : "admin",
-    password: "yesha123",
-    port    : "3306",
-    database : "grubhub"
-});
-
-connection.connect(function(err) {
-    if (err) {
-      return console.error('error: ' + err.message);
-    }
-    console.log('Connected to the MySQL server.');
-    
-  });
-
+var connection = require('./config')
 
   exports.editBuyerPhone = (req, res) => {
 
@@ -62,9 +45,10 @@ connection.connect(function(err) {
     // var lName = "V";
     //var password = req.body.currentPassword;
     //var id = "2";
+    console.log("Inside edit name")
 
     var sql = "UPDATE buyer SET fName = "+mysql.escape(fName)+" , lName = "+mysql.escape(lName)+" WHERE email = "+mysql.escape(email);
-
+    console.log(sql)
     connection.query(sql, function(err,results, fields){
         if(err){
             res.writeHead(200,{
@@ -74,6 +58,7 @@ connection.connect(function(err) {
             res.end("error");
         }
         else{
+            console.log("success!!!")
             res.writeHead(201,{
                 'Content-Type' : 'application/json'
                 });
