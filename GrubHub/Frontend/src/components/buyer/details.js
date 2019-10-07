@@ -19,7 +19,13 @@ class details extends Component {
             menu: [],
             isClick: "no",
             number: 0,
-            itemList : "" 
+            //itemList : "",
+            cart: [],
+            flag: false,
+            itemList: "",
+            price: "",
+            email: "",
+            address: ""
         }
         // this.handleChange = this.handleChange.bind(this);
         this.diplay = this.display.bind(this)
@@ -60,36 +66,35 @@ class details extends Component {
 
 
 
-    addtoCart = (e,itemName) => {
-        alert(itemName)
+    addtoCart = (v1) => {
+        //alert(v1.name," Added")
+        console.log(v1)
         ////e.preventDefault();
         console.log("Here i am baby: ")
-        const data = {
-            itemList : "Fries,Fries,Momos",
-            rName : "ABC"
-        }
-        // var itemL = this.state.itemList.concat(",",sessionStorage.getItem('itemList'))
-        // console.log(itemL)
-        // const data = {
-        //     number : this.state.number,
-        //     itemList : itemL
-        //    // rName : sessionStorage.getItem('rName')
-        // }
-        // console.log("inside add to cart")
-        axios.post('http://localhost:3001/addtoCart',data)
-        .then((response) => {
-            console.log("Status Code : ",response.status);
-            if(response.status === 201){
-                this.setState({
-                    flag : true
-                })
-            }else{
-                this.setState({
-                    flag : false,
-                    msg : 'Section already exists!'
-                })
-            }
+        this.setState({
+            flag: true,
+            itemList : v1.item,
+            price: v1.price,
+            email: "a@b.com",
+            address: "1318, The Alameda"
         })
+        
+        // axios.post('http://localhost:3001/addtoCart',data)
+        // .then((response) => {
+        //     e.preventDefault();
+        //     console.log("Status Code : ",response.status);
+        //     if(response.status === 201){
+        //         this.setState({
+        //             flag : true,
+        //             cart: response.data
+        //         })
+        //     }else{
+        //         this.setState({
+        //             flag : false,
+        //             msg : 'Section already exists!'
+        //         })
+        //     }
+        // })
     }
 
     
@@ -140,7 +145,28 @@ class details extends Component {
                 <div></div>
             )
         }
+    let Cart;
+        if(this.state.flag){
 
+        Cart = (
+            <div> <h2>Cart</h2>
+                <div>
+                   <h3>{this.state.address}</h3>
+                </div>
+                <div>
+                    <h3>{this.state.item}</h3>
+                </div>
+                <div><h3>{this.state.price}</h3></div>
+            </div>
+        )
+        }
+        else{
+            Cart =(
+                <div>
+
+                </div>
+            )
+        }
         let _this = this;
         let Menu = Object.values(this.state.menu).map(menu1 => {
             console.log(menu1)
@@ -171,8 +197,8 @@ class details extends Component {
 
                                                     <div class="container1">
                                                         <img src={v1.imageUrl} class="img-div" />
-                                                        <button class="btn" className="button-div" onClick={(e) => {this.onOpenModal(e)}}>${v1.price}+</button>
-                                                        <Modal open={this.state.open} close={this.state.close} center focusTrappedr>
+                                                        <button class="btn" className="button-div" onClick={() => {this.addtoCart(v1)}}>${v1.price}+</button>
+                                                        {/* <Modal open={this.state.open} close={this.state.close} center focusTrappedr>
                                                             
                                                                 <p>
                                                                     <label>
@@ -184,7 +210,7 @@ class details extends Component {
                                                                     this.addtoCart(v1)}}>Submit</button>
                                                                 <button>Cancel</button>
                                                             
-                                                        </Modal>
+                                                        </Modal> */}
                                                     </div>
 
                                                 </div>
@@ -232,7 +258,7 @@ class details extends Component {
                     </div>
                 </div>
                 <div class="col-sm-3 details-main-divs">
-                    {Popup}
+                    {Cart}
                 </div>
             </div>
         )
