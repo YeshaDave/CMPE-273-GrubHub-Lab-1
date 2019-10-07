@@ -8,6 +8,23 @@ class Navbar extends Component {
 
     render(){
 
+        var dispName = null;
+        var link1 = null;
+        var link2 = null;
+        console.log("role",sessionStorage.getItem('role'))
+        console.log("navbar",sessionStorage.getItem('bName'))
+        if(sessionStorage.getItem('role') == "buyer"){
+            dispName = sessionStorage.getItem('bName')
+            link1 = "/bprofile"
+            link2 = "/blogin"
+        }
+        else if(sessionStorage.getItem('role') == "owner"){
+            dispName = sessionStorage.getItem('oName')
+            link1 = "/oprofile"
+            link2 = "/ologin"
+        }
+
+
         return(
             <div>
                 <nav class="Navbar-div">
@@ -25,14 +42,17 @@ class Navbar extends Component {
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                     <li class="bag-icon">
-                    <div>Hi, Yesha</div>
-                    <div><img src="https://img.icons8.com/color/10/000000/expand-arrow.png"></img></div>
+                    <div><a href={link1}>
+                    <div>Hi, {dispName}</div><a/>
+                    <div><img src="https://img.icons8.com/color/10/000000/expand-arrow.png"></img></div></a></div>
                     </li>
                     <li>
                     
                     </li>
                     <li>
+
                     <div>  
+                    <a href={link2}>Logout</a>
                     <img src="https://img.icons8.com/ios-glyphs/20/000000/shopping-bag.png"></img>
                     </div>
                     

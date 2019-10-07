@@ -6,6 +6,7 @@ import BuyerLogin from './login/BuyerLogin';
 import OwnerLogin from './login/OwnerLogin';
 import OwnerProfile from './profile/OwnerProfile';
 import OwnerSignin from './signup/OwnerSignin';
+//import OSignup from './signup/Signup1'
 import BuyerProfile from './profile/BuyerProfile';
 import Editname from './profile/Editname';
 import EditPhone from './profile/EditPhone';
@@ -13,12 +14,13 @@ import Phone from './profile/Phone';
 import MenuList from './owner/menuList';
 import UpdateItems from './owner/updateItems';
 import BuyerHome from './buyer/buyerHome';
+import OwnerHome from './owner/OwnerHome';
 import Search from './buyer/search';
 import Details from './buyer/details'
 import UpcomingOrders from './buyer/upcomingOrders';
 import PastOrders from './buyer/pastOrders';
 import AddSections from './owner/addSection';
-import MenuItems from './owner/menuItems';
+//import MenuItems from './owner/menuItems';
 import OPastOrders from './owner/OwnerPastOrders';
 import OUpcomingOrders from './owner/OwnerUpcomingOrders';
 
@@ -32,7 +34,7 @@ class Main extends Component {
                 <Route path="/bsignup" component={BuyerSignup}/>
                 <Route path="/blogin" component={BuyerLogin}/>
                 <Route path="/ologin" component={OwnerLogin}/>
-                <Route path="/osignup" component={OwnerSignup}/>
+                <Route path="/osignin" component={OwnerSignin}/>
                 <Route path="/bprofile" component={BuyerProfile}/>
                 <Route path="/oprofile" component={OwnerProfile}/>
                 <Route path="/editName" component={Editname}/>
@@ -45,10 +47,12 @@ class Main extends Component {
                 <Route path="/upcomingOrders" component={UpcomingOrders}/>
                 <Route path="/pastOrders" component={PastOrders}/>
                 <Route path="/addSection" component={AddSections}/>
-                <Route path="/menuItems" component={MenuItems}/>
+                {/* <Route path="/menuItems" component={MenuItems}/> */}
                 <Route path="/phone" component={Phone}/>
                 <Route path="/oPastOrders" component={OPastOrders}/>
                 <Route path="/oUpcomingOrders" component={OUpcomingOrders}/>
+                <Route path="/oHome" component={OwnerHome}/>
+                {/* <Route path="/osignup1" component={OSignup}/> */}
             </div>
         )
     }

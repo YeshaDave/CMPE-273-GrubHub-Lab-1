@@ -63,16 +63,17 @@ class details extends Component {
     addtoCart = (e,itemName) => {
         alert(itemName)
         ////e.preventDefault();
-        console.log("Here i am baby: ", itemName.name )
+        console.log("Here i am baby: ")
         const data = {
-            itemList : itemName
+            itemList : "Fries,Fries,Momos",
+            rName : "ABC"
         }
         // var itemL = this.state.itemList.concat(",",sessionStorage.getItem('itemList'))
         // console.log(itemL)
         // const data = {
         //     number : this.state.number,
         //     itemList : itemL
-        //    // rName : localStorage.getItem('rName')
+        //    // rName : sessionStorage.getItem('rName')
         // }
         // console.log("inside add to cart")
         axios.post('http://localhost:3001/addtoCart',data)
@@ -99,12 +100,12 @@ class details extends Component {
       }
 
     componentDidMount() {
-        const data = {
-            rId: this.props.location.state.rId,
-            rName: this.props.location.state.rName
-        }
-        console.log(data)
-        axios.post('http://localhost:3001/getMenu',data)
+        // const data = {
+        //     rId: this.props.location.state.rId,
+        //     rName: this.props.location.state.rName
+        // }
+        //console.log(data)
+        axios.post('http://localhost:3001/getMenu1')
             .then((response) => {
                 //update the state with the response data
                 console.log("inside componentDidMount")
@@ -171,7 +172,7 @@ class details extends Component {
                                                     <div class="container1">
                                                         <img src={v1.imageUrl} class="img-div" />
                                                         <button class="btn" className="button-div" onClick={(e) => {this.onOpenModal(e)}}>${v1.price}+</button>
-                                                        <Modal open={this.state.open} center focusTrappedr>
+                                                        <Modal open={this.state.open} close={this.state.close} center focusTrappedr>
                                                             
                                                                 <p>
                                                                     <label>
@@ -180,7 +181,7 @@ class details extends Component {
                                                                     </label>
                                                                 </p>
                                                                 <button onClick={() => {
-                                                                    _this.addtoCart(v1)}}>Submit</button>
+                                                                    this.addtoCart(v1)}}>Submit</button>
                                                                 <button>Cancel</button>
                                                             
                                                         </Modal>

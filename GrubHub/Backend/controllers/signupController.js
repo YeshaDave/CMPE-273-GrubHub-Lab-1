@@ -6,30 +6,14 @@ var app = express();
 //var cors = require('cors');
 // app.set('view engine', 'ejs');
 var mysql = require('mysql');
-var crypt = require('./crypt');
-
-
-var connection = mysql.createConnection({
-    host    : "database-1.cjzfppa66uuh.us-east-1.rds.amazonaws.com",
-    user    : "admin",
-    password: "yesha123",
-    port    : "3306",
-    database : "grubhub"
-});
-
-connection.connect(function(err) {
-    if (err) {
-      return console.error('error: ' + err.message);
-    }
-    console.log('Connected to the MySQL server.');
-    
-  });
+var crypt = require('./crypt1');
+var connection = require('./config')
 
 
 
 exports.buyerSignup = (req,res)=>{
 
-    console.log("Inside login post");
+    console.log("Inside signup post");
     
 
     var buyer={
@@ -52,8 +36,10 @@ exports.buyerSignup = (req,res)=>{
                 res.send("Email exists");
         }
     else{
+        console.log("inside else")
         crypt.createHash(buyer.password, function (res1) {
             buyer.password = res1;
+            console.log("res",res1)
             var sql = "INSERT INTO buyer SET "+mysql.escape(buyer) ;
     
     connection.query(sql, function(err,results, fields){
@@ -70,6 +56,7 @@ exports.buyerSignup = (req,res)=>{
                 'Content-Type' : 'application/json'
                 });
                 res.end("Success");
+                
         }
     })
 }
@@ -79,7 +66,7 @@ exports.buyerSignup = (req,res)=>{
 
 
 exports.ownerSignup = (req, res) => {
-    console.log("Inside login post");
+    console.log("Inside signup post");
 
 
     var owner={
@@ -88,11 +75,10 @@ exports.ownerSignup = (req, res) => {
         "email":req.body.email,
         "password":req.body.password,
         "zipCode":req.body.zCode,
-        "cuisine": req.body.cuisine,
-        "phone":req.body.phone
       }
 
     var sql1 = "SELECT * FROM grubhub.owner WHERE email = "+mysql.escape(owner.email)+";"
+    console.log(sql1)
     connection.query(sql1, function(err, results, fields){
         if(results.length != 0){
             res.status(202,{
@@ -104,8 +90,8 @@ exports.ownerSignup = (req, res) => {
     else{
       crypt.createHash(owner.password, function (res1) {
         owner.password = res1;
-        var sql = "INSERT INTO owner SET "+mysql.escape(owner) ;
-    
+        var sql = "INSERT INTO grubhub.owner SET "+mysql.escape(owner) ;
+        console.log(sql)
         connection.query(sql, function(err,results, fields){
             if(err){
                 res.writeHead(200,{
@@ -116,10 +102,12 @@ exports.ownerSignup = (req, res) => {
             }
     
             else {
+                console.log("entered into table")
                 res.writeHead(201,{
                     'Content-Type' : 'application/json'
                     });
                     res.end("Success");
+
             }
         })
     }
@@ -128,74 +116,3 @@ exports.ownerSignup = (req, res) => {
     
     
     
-//       var sql = "INSERT INTO owner SET "+mysql.escape(owner) ;
-
-//     connection.query(sql, function(err,results, fields){
-//         if(err){
-//             res.writeHead(200,{
-//             'Content-Type' : 'application/json'
-//             });
-//             console.log(err);
-//             res.end("error");
-//         }
-
-//         else {
-//             res.writeHead(201,{
-//                 'Content-Type' : 'application/json'
-//                 });
-//                 res.end("Success");
-//         }
-//     })
-
-// }
-
-
-// app.post('/ownerSignup', function(req,res){
-
-//     console.log("Inside login post");
-
-
-//     var buyer={
-//         "name":req.body.name,
-//         "reataurantName":req.body.restName,
-//         "email":req.body.email,
-//         "password":req.body.password,
-//         "zipCode":req.body.zCode
-//       }
-
-//     // var owner={
-//     //     "name":"Tom",
-//     //     "restaurantName":"Agave",
-//     //     "email":"a@b.com",
-//     //     "password":"tom",
-//     //     "zipCode":"123456",
-//     //   }
-
-//     var sql = "INSERT INTO owner SET "+mysql.escape(owner) ;
-
-//     connection.query(sql, function(err,results, fields){
-//         if(err){
-//             res.writeHead(200,{
-//             'Content-Type' : 'application/json'
-//             });
-//             console.log(err);
-//             res.end("error");
-//         }
-
-//         else {
-//             res.writeHead(201,{
-//                 'Content-Type' : 'application/json'
-//                 });
-//                 res.end("Success");
-//         }
-//     })
-
-// });
-
-
-
-
-
-// app.listen(3002);
-// console.log("Server Listening on port 3002")
-// module.exports = app;

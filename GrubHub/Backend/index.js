@@ -46,7 +46,7 @@ var orderController = require('./controllers/orderController');
 
 
 app.post('/buyerlogin',loginController.buyerlogin);
-app.post('/ownerlogin',ownerLogin1.ownerlogin);
+app.post('/ownerlogin',loginController.ownerlogin);
 app.post('/buyerSignup',signupController.buyerSignup);
 app.post('/ownerSignup',signupController.ownerSignup);
 app.post('/editBuyerName',editController.editBuyerName);
@@ -59,6 +59,7 @@ app.post('/editZip',editOwnerController.editZip);
 app.post('/editCuisine',editOwnerController.editCuisine);
 app.post('/editRestName',editOwnerController.editRestName);
 app.post('/getMenu',menuList.getMenu);
+app.post('/getMenu1',menuList.getMenu1);
 app.post('/getSections',menuList.getSections);
 app.post('/getOldOrders',orderController.getOldOrders);
 app.post('/getUpcomingOrders',orderController.getUpcomingOrders);

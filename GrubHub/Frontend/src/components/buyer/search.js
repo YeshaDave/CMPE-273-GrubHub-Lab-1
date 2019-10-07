@@ -65,7 +65,7 @@ class search extends Component {
             if(sections != null)
             return(
                 
-                <div className="cuisine-div overflow"><img class="cuisine-div-img" src={sections.image}></img>
+                <div className="cuisine-div search"><img class="cuisine-div-img" src={sections.image}></img>
                 <br/>{sections.section}
                 </div>
                     // <div class="div-menu1"><img class="img-menu" src={img} /><button>{menu.price}</button></div>
@@ -112,10 +112,10 @@ class search extends Component {
                 <div class="col-md-4">
                 <h4><a  href="/pastOrders">Upcoming Orders</a></h4> </div> 
                 </div> <br/>
-                <div class="search overflow">
+                <div class="search">
                 {Sections}
                 </div>
-                <br/><br/>
+                <br/><br/><br/><br/><br/><br/><br/>
 
                 <div class="search">
                     <br/><br/>

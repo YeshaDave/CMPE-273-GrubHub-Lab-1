@@ -7,22 +7,8 @@ var app = express();
 // app.set('view engine', 'ejs');
 var mysql = require('mysql');
 //var crypt = require('./crypt.js');
+var connection = require('./config')
 
-var connection = mysql.createConnection({
-    host: "database-1.cjpg8vnddvnl.us-west-1.rds.amazonaws.com",
-    user: "admin",
-    password: "yesha123",
-    port: "3306",
-    database: "grubhub"
-});
-
-connection.connect(function (err) {
-    if (err) {
-        return console.error('error: ' + err.message);
-    }
-    console.log('Connected to the MySQL server. of order controller');
-
-});
 
 exports.getOldOrders = (req,res) => {
     console.log("inside past orders");

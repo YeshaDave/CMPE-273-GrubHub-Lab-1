@@ -6,23 +6,8 @@ var app = express();
 //var cors = require('cors');
 // app.set('view engine', 'ejs');
 var mysql = require('mysql');
+var connection = require('./config')
 
-
-var connection = mysql.createConnection({
-    host: "database-1.cjpg8vnddvnl.us-west-1.rds.amazonaws.com",
-    user: "admin",
-    password: "yesha123",
-    port: "3306",
-    database: "grubhub"
-});
-
-connection.connect(function (err) {
-    if (err) {
-        return console.error('error: ' + err.message);
-    }
-    console.log('Connected to the MySQL server.');
-
-});
 
 //   var menu = [
 //     {"name" : "Fries", "price" : "3.5", "image" : "Author 1"},
@@ -93,6 +78,127 @@ exports.getSections = (req, res) => {
                 'Content-Type': 'application/json'
             });
             res.send(results);
+        }
+        else {
+            res.status(204, { 'Content-Type': 'application/json' });
+            res.send("Error!!");
+        }
+    })
+}
+
+
+
+exports.getRestaurants = (req, res) => {
+    console.log("inside get sections");
+
+    
+
+    var sql = "SELECT * FROM owner;"
+    console.log("backend")
+
+
+    connection.query(sql, function (err, results, fields) {
+        if (results.length != 0) {
+            res.status(200, {
+                'Content-Type': 'application/json'
+            });
+            res.send(results);
+        }
+        else {
+            res.status(204, { 'Content-Type': 'application/json' });
+            res.send("Error!!");
+        }
+    })
+}
+
+
+
+
+exports.getMenu1 = (req, res) => {
+    console.log("inside get menu");
+
+    var rid = "1";
+
+    var sql = "SELECT * FROM menu;"
+    console.log("backend")
+
+
+    connection.query(sql, function (err, results, fields) {
+        //console.log(results)
+        // console.log(results[1].section)
+        // console.log("length",results.length)
+        if (results.length != 0) {
+            var obj = {};
+            for (let l = 0; l < results.length; l++) {
+                console.log("index",l)
+                var key = results[l].section;
+                var itemArr = [];
+                //console.log("key",key)
+                //console.log("results.section",results[l].section)
+                
+                if (Object.keys(obj).includes(key)) {
+                    //itemArr.push(obj)
+                    itemArr = obj[key]
+                    itemArr.push(results[l])
+                   // console.log("item array",itemArr)
+                }else{
+                    console.log("in else")
+                    obj[key] = [results[l]]
+                    //console.log(Object.keys(obj))
+                }
+            }
+            
+            res.status(200, {
+                'Content-Type': 'application/json'
+            });
+            res.send(obj);
+        }
+        else {
+            res.status(204, { 'Content-Type': 'application/json' });
+            res.send("Error!!");
+        }
+    })
+}
+
+
+exports.getMenu = (req, res) => {
+    console.log("inside get menu");
+
+    var rid = "1";
+
+    var sql = "SELECT * FROM menu WHERE rid = " + mysql.escape(rid) + ";"
+    console.log("backend")
+
+
+    connection.query(sql, function (err, results, fields) {
+        //console.log(results)
+        // console.log(results[1].section)
+        // console.log("length",results.length)
+        if (results.length != 0) {
+            var obj = {};
+            for (let l = 0; l < results.length; l++) {
+                console.log("index",l)
+                var key = results[l].section;
+                var itemArr = [];
+                //console.log("key",key)
+                //console.log("results.section",results[l].section)
+                
+                if (Object.keys(obj).includes(key)) {
+                    //itemArr.push(obj)
+                    itemArr = obj[key]
+                    itemArr.push(results[l])
+                   // console.log("item array",itemArr)
+                }else{
+                    console.log("in else")
+                    obj[key] = [results[l]]
+                    //console.log(Object.keys(obj))
+                }
+            }
+            
+            res.status(200, {
+                'Content-Type': 'application/json'
+            });
+            res.send(obj);
         }
         else {
             res.status(204, { 'Content-Type': 'application/json' });
@@ -204,16 +310,20 @@ exports.addtoCart = (req, res) => {
 
     var item = {
         "number" : req.body.itemList,
-        //"rName": req.body.rName
-       // "rName": "ABC"
+        "rName": req.body.rName
     }
 
     console.log("REQUEST",req.body.itemList)
 
     console.log("ITEM NAME",item.number)
+
+    var items = [];
+    items = req.body.itemList.split(",")
+    console.log(items);
+    
    // var sql = "SELECT * FROM sections WHERE section = " + mysql.escape(item.section) + ";"
     //console.log(item.item)
-
+  
     //connection.query(sql, function (err, results, fields) {
         // if (results.length != 0) {
         //     res.status(204, {

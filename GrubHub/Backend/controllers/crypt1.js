@@ -19,11 +19,11 @@ crypt1.createHash = function (data, successCallback, failureCallback) {
     });
 };
 
-crypt1.compareHash = function (data, encrypted, successCallback, callback1) {
+crypt1.compareHash = function (data, encrypted, successCallback, failureCallback) {
     bcrypt.compare(data, encrypted, function (err, isMatch) {
         if (err) {
-            callback1(err);{
-            return;}
+            failureCallback(err);
+            return;
         }
         successCallback(err, isMatch);
     });
