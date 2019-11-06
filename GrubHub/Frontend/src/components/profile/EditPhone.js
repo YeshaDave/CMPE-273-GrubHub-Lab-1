@@ -47,7 +47,7 @@ class EditPhone extends Component {
         //set the with credentials to true
         axios.defaults.withCredentials = true;
         //make a post request with the user data
-        axios.post('http://localhost:3001/editBuyerPhone',data)
+        axios.post('http://54.183.178.69:3001/editBuyerPhone',data)
             .then(response => {
                 console.log("Status Code : ",response.status);
                 if(response.status === 201){

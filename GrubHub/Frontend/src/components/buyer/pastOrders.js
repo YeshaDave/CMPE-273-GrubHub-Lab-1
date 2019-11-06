@@ -4,6 +4,7 @@ import axios from 'axios';
 //import cookie from 'react-cookies';
 //import {Redirect} from 'react-router';
 //import {Route} from 'react-router-dom';
+import Draggable from 'react-draggable';
 
 class upcomingOrders extends Component{
 
@@ -12,18 +13,30 @@ class upcomingOrders extends Component{
         super();
         this.state = {  
             upcOrders : [],
+            
         }
+        this.handleDrag = this.handleDrag.bind(this);
         // this.handleChange = this.handleChange.bind(this);
     }  
 
+    handleDrag = (e, ui) => {
+        const {x, y} = this.state.deltaPosition;
+        this.setState({
+          deltaPosition: {
+            x: x + ui.deltaX,
+            y: y + ui.deltaY,
+          }
+        });
+    }
+
     componentDidMount(){
-        axios.post('http://localhost:3001/getUpcomingOrders')
+        axios.post('http://54.183.178.69:3001/getCart1')
                 .then((response) => {
                 //update the state with the response data
                 console.log("inside componentDidMount of Upcoming orders")
                 console.log(response)
                 this.setState({
-                    upcOrders : this.state.upcOrders.concat(response.data)
+                    upcOrders : this.state.upcOrders.concat(response.data.updatedList)
                 });
                 //this.state =  { authFlag2: cookie.load('cookie') }
                 //console.log(this.state.authFlag2);
@@ -32,34 +45,50 @@ class upcomingOrders extends Component{
 
 
     render(){
-        let UpcOrders = this.state.upcOrders.map(upcOrders => {
-            
-            //var img = menu.imageUrl
-           // var num=this.state.num;
-           var item = upcOrders.items
-           console.log("string",item)
-           var arr = item.split(",")
-           console.log("arr",arr)
-           if(upcOrders != null) 
-            return(
-                
-                <div class="container-fluid orders">
-                <div class="orders-card"></div>
-                <div>
-                <div class="col-md-3 inner-order">
-                <ul>
-                <li class="list font"><h3>{upcOrders.name}</h3></li>
-                <li class="list font1">{upcOrders.address}</li>
-                <li class="list font1">Total: ${upcOrders.total}</li>
-                </ul>
-                </div>
-                <div class="col-md-6 inner-order">
-                </div>
-                </div>
-                </div>
+        let UpcOrders = Object.values(this.state.upcOrders).map(upcOrders1 => {
+            console.log(upcOrders1)
+            return (
+                <tr class="row-border">
+                    {
+                        Object.keys(upcOrders1).map(key => {
+                            console.log(key)
+
+                            return (
+                                <div class="c1"><th class="th1"><br />OrderID: {key}<br /><br />
+                                    {
+                                        upcOrders1[key].map(v1 => {
+                                          
+                                            return (
+                                                
+                                                <div class="">
+                                                    <h5>
+                                                        <div class="div-menu2">
+                                                            <p class="menu-name">{v1.item}       
+                                                           
+                                                            </p>
+
+                                                            <br />
+                                                            {v1.price}
+                                                            <br/>
+                                                            
+                                                        </div></h5>
+
+                                                </div>
+                                                
+                                            )
+                                        })
+                                    }
+                                
+                                
+                                </th> Total : 50$</div>
+                            )
+
+                        })
+                    }
+                </tr>
+
             )
-       
-    })
+        })
         return(
             <div >
                 <div>
@@ -79,10 +108,11 @@ class upcomingOrders extends Component{
                 </div>
                 
                 
-
+                <Draggable onDrag={this.handleDrag}>
                 <div class="col-md-9 profile-div">
                 {UpcOrders}
                 </div>
+                </Draggable>
             </div>
         )
     }

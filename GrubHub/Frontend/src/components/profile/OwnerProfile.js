@@ -90,7 +90,7 @@ class OwnerProfile extends Component {
         //set the with credentials to true
         axios.defaults.withCredentials = true;
         //make a post request with the user data
-        axios.post('http://localhost:3001/editOwnerName',data)
+        axios.post('http://54.183.178.69:3001/editOwnerName',data)
             .then(response => {
                 console.log("Status Code : ",response.status);
                 if(response.status === 201){
@@ -119,7 +119,7 @@ class OwnerProfile extends Component {
         //set the with credentials to true
         axios.defaults.withCredentials = true;
         //make a post request with the user data
-        axios.post('http://localhost:3001/editRestName',data)
+        axios.post('http://54.183.178.69:3001/editRestName',data)
             .then(response => {
                 console.log("Status Code : ",response.status);
                 if(response.status === 201){
@@ -148,7 +148,7 @@ class OwnerProfile extends Component {
         //set the with credentials to true
         axios.defaults.withCredentials = true;
         //make a post request with the user data
-        axios.post('http://localhost:3001/editZip',data)
+        axios.post('http://54.183.178.69:3001/editZip',data)
             .then(response => {
                 console.log("Status Code : ",response.status);
                 if(response.status === 201){
@@ -177,7 +177,7 @@ class OwnerProfile extends Component {
         //set the with credentials to true
         axios.defaults.withCredentials = true;
         //make a post request with the user data
-        axios.post('http://localhost:3001/editOwnerEmail',data)
+        axios.post('http://54.183.178.69:3001/editOwnerEmail',data)
             .then(response => {
                 console.log("Status Code : ",response.status);
                 if(response.status === 201){
@@ -206,7 +206,7 @@ class OwnerProfile extends Component {
         //set the with credentials to true
         axios.defaults.withCredentials = true;
         //make a post request with the user data
-        axios.post('http://localhost:3001/editOwnerPhone',data)
+        axios.post('http://54.183.178.69:3001/editOwnerPhone',data)
             .then(response => {
                 console.log("Status Code : ",response.status);
                 if(response.status === 201){
@@ -235,7 +235,7 @@ class OwnerProfile extends Component {
         //set the with credentials to true
         axios.defaults.withCredentials = true;
         //make a post request with the user data
-        axios.post('http://localhost:3001/editCuisine',data)
+        axios.post('http://54.183.178.69:3001/editCuisine',data)
             .then(response => {
                 console.log("Status Code : ",response.status);
                 if(response.status === 201){

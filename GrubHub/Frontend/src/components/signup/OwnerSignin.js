@@ -3,6 +3,8 @@ import '../../App.css';
 import axios from 'axios';
 //import cookie from 'react-cookies';
 import {Redirect} from 'react-router';
+import { connect } from "react-redux";
+import { Field, reduxForm } from "redux-form";
 
 class OwnerSignin extends Component {
 
@@ -11,11 +13,11 @@ class OwnerSignin extends Component {
         this.state = {
             fName : "",
             lName : "",
-            email : "",
-            phone : "",
-            password : "",
+            // email : "",
+            // phone : "",
+            // password : "",
             authFlag : false,
-            msg : ""
+            errormsg : ""
        }
        }
        componentWillMount(){
@@ -24,79 +26,132 @@ class OwnerSignin extends Component {
         })
     }
 
-    nameChangeHandler = (e) => {
-        this.setState({
-            name : e.target.value
-        })
+    // nameChangeHandler = (e) => {
+    //     this.setState({
+    //         name : e.target.value
+    //     })
+    // }
+
+    // restNameChangeHandler = (e) => {
+    //     this.setState({
+    //         restName : e.target.value
+    //     })
+    // }
+
+    // zCodeChangeHandler = (e) => {
+    //     this.setState({
+    //         zCode : e.target.value
+    //     })
+    // }
+
+
+    // emailChangeHandler = (e) => {
+    //     this.setState({
+    //         email : e.target.value
+    //     })
+    // }
+
+    // passwordChangeHandler = (e) => {
+    //     this.setState({
+    //         password : e.target.value
+    //     })
+    // }
+
+
+    renderField(field) {
+        const { meta: { touched, error } } = field;
+        const className = `form-group ${touched && error ? "has-danger" : ""}`;
+
+        return (
+            <div className={className}>
+                <label>{field.label}</label>
+                <input className="form-control" type="text" {...field.input} />
+                <div className="text-help">
+                    {touched ? error : ""}
+                </div>
+            </div>
+
+        )
     }
 
-    restNameChangeHandler = (e) => {
-        this.setState({
-            restName : e.target.value
-        })
+    renderEmail(field) {
+        const { meta: { touched, error } } = field;
+        const className = `form-group ${touched && error ? "has-danger" : ""}`;
+
+        return (
+            <div className={className}>
+                <label style={{ textAlign: 'left' }}>{field.label}</label>
+                <input className="form-control" type="email" {...field.input} />
+                <div className="text-help">
+                    {touched ? error : ""}
+                </div>
+            </div>
+        );
     }
 
-    zCodeChangeHandler = (e) => {
-        this.setState({
-            zCode : e.target.value
-        })
+    renderPassword(field) {
+        const { meta: { touched, error } } = field;
+        const className = `form-group ${touched && error ? "has-danger" : ""}`;
+
+        return (
+            <div className={className}>
+                <label>{field.label}</label>
+                <input className="form-control" type="password" {...field.input} />
+                <div className="text-help">
+                    {touched ? error : ""}
+                </div>
+            </div>
+
+        )
     }
 
 
-    emailChangeHandler = (e) => {
-        this.setState({
-            email : e.target.value
-        })
+    submitLogin(values) {
+        this.props.signup(values);
+        console.log(this);
     }
+    // submitSignup = (e) => {
+    //     e.preventDefault();
+    //     const data = {
+    //         name : this.state.name,
+    //         restName : this.state.restName,
+    //         email : this.state.email,
+    //         zCode : this.state.zCode,
+    //         password : this.state.password,
+    //     }
+    //     console.log(data);
 
-    passwordChangeHandler = (e) => {
-        this.setState({
-            password : e.target.value
-        })
-    }
-
-    submitSignup = (e) => {
-        e.preventDefault();
-        const data = {
-            name : this.state.name,
-            restName : this.state.restName,
-            email : this.state.email,
-            zCode : this.state.zCode,
-            password : this.state.password,
-        }
-        console.log(data);
-
-        console.log("inside submit signup");
-        //set the with credentials to true
-        axios.defaults.withCredentials = true;
-        //make a post request with the user data
-        axios.post('http://localhost:3001/ownerSignup',data)
-            .then(response => {
-                console.log("Status Code : ",response.status);
-                if(response.status === 201){
-                    this.setState({
-                        authFlag : true
-                    })
-                }else if(response.status === 200){
-                    this.setState({
-                        authFlag : false,
-                        msg : 'Error in signup!'
-                    })
-                    console.log("in else")
-                }
-                else if(response.status === 203){
-                    this.setState({
-                        authFlag : false,
-                        msg : "Email exists"
-                    })
-                }
-            });
-    }
+    //     console.log("inside submit signup");
+    //     //set the with credentials to true
+    //     axios.defaults.withCredentials = true;
+    //     //make a post request with the user data
+    //     axios.post('http://54.183.178.69:3001/ownerSignup1',data)
+    //         .then(response => {
+    //             console.log("Status Code : ",response.status);
+    //             if(response.status === 201){
+    //                 this.setState({
+    //                     authFlag : true
+    //                 })
+    //             }else if(response.status === 200){
+    //                 this.setState({
+    //                     authFlag : false,
+    //                     msg : 'Error in signup!'
+    //                 })
+    //                 console.log("in else")
+    //             }
+    //             else if(response.status === 203){
+    //                 this.setState({
+    //                     authFlag : false,
+    //                     msg : "Email exists"
+    //                 })
+    //             }
+    //         });
+    // }
 
     render(){
 
         let redirectVar = null;
-        if(this.state.authFlag){
+        if(this.props.authFlag == true){
             redirectVar = <Redirect to = "/ologin" />
         }
         const { handleSubmit } = this.props;
@@ -113,7 +168,8 @@ class OwnerSignin extends Component {
                         </div>
                         
                             <div class="form-group">
-                            
+                            <form onSubmit={handleSubmit(this.submitLogin.bind(this))}>
+
                                 <div className="col-md-3"></div>
                                 <div className="col-md-5 outer-box">
                                 <div className="col-md-12">   
@@ -125,12 +181,15 @@ class OwnerSignin extends Component {
                                         
                                     <br/><p>{this.state.msg}</p><br/>
                                     Name<br/>
-                                    <input type="text" class="form-control" name="name" onChange={this.nameChangeHandler} required />
+                                    <Field name="name" component={this.renderField}/>
+
+                                    {/* <input type="text" class="form-control" name="name" onChange={this.nameChangeHandler} required /> */}
                                     </div>
                                     <div class="form-group" className="col-md-12">
                                     <br/><br/>
                                     Email<br/>
-                                    <input type="email" class="form-control" name="email" onChange={this.emailChangeHandler} required />
+                                    <Field name="email" component={this.renderEmail}/>
+                                    {/* <input type="email" class="form-control" name="email" onChange={this.emailChangeHandler} required /> */}
                                     <br/>
                                     </div>
                                     <div class="form-group" >
@@ -142,15 +201,22 @@ class OwnerSignin extends Component {
                                     </div>
                                     <br/>
                                     <div>
-                                    <div className="col-md-8"><input type="text" class="form-control" name="restName" onChange={this.restNameChangeHandler} required/></div>
+                                    <div className="col-md-8">
+                                    <Field name="restName" component={this.renderField}/>
+                                        {/* <input type="text" class="form-control" name="restName" onChange={this.restNameChangeHandler} required/> */}
+                                    </div>
                                    
-                                    <div className="col-md-4"><input type="text" class="form-control" name="zCode" required pattern="\d{1,8}" onChange={this.zCodeChangeHandler} required/></div>
+                                    <div className="col-md-4">
+                                    <Field name="zCode" component={this.renderField}/>
+                                        {/* <input type="text" class="form-control" name="zCode" required pattern="\d{1,8}" onChange={this.zCodeChangeHandler} required/> */}
+                                    </div>
                                     <br/></div>
                                     </div>
                                     <div class="form-group" className="col-md-12">
                                     <br/>
                                     Password<br/>
-                                    <input type="password" class="form-control" name="password" pattern="[A-Za-z0-9]{4,10}" onChange={this.passwordChangeHandler} required />
+                                    <Field name="password" component={this.renderPassword}/>
+                                    {/* <input type="password" class="form-control" name="password" pattern="[A-Za-z0-9]{4,10}" onChange={this.passwordChangeHandler} required /> */}
                                     </div>
                                     <div class="form-group" className="col-md-12">
                                     
@@ -166,6 +232,7 @@ class OwnerSignin extends Component {
                                     </div>
                                 </div>   
                                 <div className="col-md-4"></div>  
+                                </form>
                             </div>           
                         </div>
                 </div>
@@ -175,4 +242,72 @@ class OwnerSignin extends Component {
     }
 }
 
-export default OwnerSignin;
+
+
+function validate(values){
+
+    let errors = {};
+    
+    if(!values.name){
+        errors.name = "Enter Name";
+    }
+    
+    if(!values.restName){
+        errors.restName = "Enter Restaurant Name";
+    }
+    
+    if(!values.email){
+        errors.email = "Enter a valid email id";
+    }
+    
+    if(!values.password){
+        errors.password = "Enter a password";
+    }
+
+    if(!values.zCode){
+        errors.zCode = "Enter a zip code";
+    }
+    
+    
+    
+    }
+    
+    const mapStateToProps = state => {
+        return {
+            authFlag: state.bSignup.authFlag,
+            errormsg: state.bSignup.errormsg
+        }
+    }
+    
+    
+    
+    const mapDispatchStateToProps = dispatch => {
+        return {
+            signup: (values) => {
+                const data = {
+                    name : values.name,
+                    restName : values.restName,
+                    zCode : values.zCode,
+                    email: values.email,
+                    password: values.password
+                }
+                //data["isRecruiter"] = recruiter
+    
+                axios.defaults.withCredentials = true;
+                axios.post('http://54.183.178.69:3001/ownerSignup1', data)
+                    .then((response) => {
+                        console.log(response.data)
+                        dispatch({ type: 'SIGNUP', payload: response.data, statusCode: response.status })
+                    })
+                    .catch((error) => {
+                        dispatch({ type: 'SIGNUP', payload: error.response.data, statusCode: error.response.data.status })
+                    });
+            }
+        }
+    }
+
+    export default reduxForm({
+        validate,
+        form: "bSignup"
+    })(connect(mapStateToProps, mapDispatchStateToProps)(OwnerSignin));
+    

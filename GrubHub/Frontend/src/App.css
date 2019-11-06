@@ -158,6 +158,17 @@
   padding-left: 0px
 }
 
+.div-menu2 {
+  float: left;
+  overflow: hidden;
+  width: 200px;
+  height: 80px;
+  
+  justify-content: space-between;
+  border: 1px #E6E5F4;
+  padding-left: 0px
+}
+
 .overflow{
   overflow-x: scroll;
 }
@@ -435,6 +446,10 @@
 
 .order-div-link {
   text-align: center
+}
+
+.quantity{
+  width: 40px
 }
 
 .search-bar-text {

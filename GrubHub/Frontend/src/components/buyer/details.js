@@ -10,6 +10,7 @@ import axios from 'axios';
 import Modal from 'react-responsive-modal';
 
 
+
 class details extends Component {
 
     constructor() {
@@ -23,9 +24,14 @@ class details extends Component {
             cart: [],
             flag: false,
             itemList: "",
-            price: "",
+            price: 0,
             email: "",
-            address: ""
+            address: "",
+            quantity: "",
+            rName: "",
+            orderID: "",
+            currentPage : 1,
+            itemsPerPage : 3
         }
         // this.handleChange = this.handleChange.bind(this);
         this.diplay = this.display.bind(this)
@@ -64,37 +70,65 @@ class details extends Component {
         this.setState({ open: false });
     };
 
+    goToCart = () => {
+        //console.log("answer: ",rest)
+      // sessionStorage.getItem('rid')
+       // console.log(this.state.rId)
 
+        this.props.history.push({
+            pathname: '/cart',
+            state: {
+                rName: this.state.rName,
+                orderID : sessionStorage.getItem('orderID')
+            }
+        })
+    }
 
     addtoCart = (v1) => {
         //alert(v1.name," Added")
         console.log(v1)
+
+        
         ////e.preventDefault();
         console.log("Here i am baby: ")
+        console.log(sessionStorage.getItem('orderID'))
         this.setState({
+            orderID: sessionStorage.getItem('orderID'),
             flag: true,
-            itemList : v1.item,
-            price: v1.price,
-            email: "a@b.com",
-            address: "1318, The Alameda"
+            itemList : v1.name,
+            price: parseFloat(v1.price,10),
+            email: sessionStorage.getItem('login_email'),
+            rName: v1.rName
+
+           // address: "1318, The Alameda"
         })
-        
-        // axios.post('http://localhost:3001/addtoCart',data)
-        // .then((response) => {
-        //     e.preventDefault();
-        //     console.log("Status Code : ",response.status);
-        //     if(response.status === 201){
-        //         this.setState({
-        //             flag : true,
-        //             cart: response.data
-        //         })
-        //     }else{
-        //         this.setState({
-        //             flag : false,
-        //             msg : 'Section already exists!'
-        //         })
-        //     }
-        // })
+
+        console.log(this.state.orderID)
+       const data ={
+        orderID: sessionStorage.getItem('orderID'),
+        itemList : v1.name,
+        price: v1.price*this.state.quantity,
+        email: sessionStorage.getItem('login_email'),
+        bName: sessionStorage.getItem('fName'),
+        rName: v1.rName
+       } 
+       
+        axios.post('http://54.183.178.69:3001/addtoCart',data)
+        .then((response) => {
+           // e.preventDefault();
+            console.log("Status Code : ",response.status);
+            if(response.status === 201){
+                this.setState({
+                    flag : true,
+                    cart: response.data
+                })
+            }else{
+                this.setState({
+                    flag : false,
+                    msg : 'Section already exists!'
+                })
+            }
+        })
     }
 
     
@@ -104,18 +138,26 @@ class details extends Component {
         })
       }
 
+      quantityChangeHandler = (e) => {
+        this.setState({
+            quantity : parseFloat(e.target.value, 10)
+        })
+      }
+
+
+
     componentDidMount() {
-        // const data = {
-        //     rId: this.props.location.state.rId,
-        //     rName: this.props.location.state.rName
-        // }
-        //console.log(data)
-        axios.post('http://localhost:3001/getMenu1')
+        const data = {
+            //rId: this.props.location.state.rId,
+            rName: this.props.location.state.rName
+        }
+        console.log(data)
+        axios.post('http://54.183.178.69:3001/getMenu1',data)
             .then((response) => {
                 //update the state with the response data
-                console.log("inside componentDidMount")
+                console.log("inside componentDidMount of get menu")
                 this.setState({
-                    menu: this.state.menu.concat(response.data)
+                    menu: this.state.menu.concat(response.data.updatedList)
                 });
                 //this.state =  { authFlag2: cookie.load('cookie') }
                 //console.log(this.state.authFlag2);
@@ -154,9 +196,13 @@ class details extends Component {
                    <h3>{this.state.address}</h3>
                 </div>
                 <div>
-                    <h3>{this.state.item}</h3>
+                <h3>{this.state.orderID}</h3>
+                    <h3>{this.state.itemList}</h3>
+                    <h3>{this.state.quantity}</h3>
                 </div>
-                <div><h3>{this.state.price}</h3></div>
+                <div><h3>{this.state.price*this.state.quantity}</h3></div>
+
+                
             </div>
         )
         }
@@ -189,28 +235,19 @@ class details extends Component {
                                                 <div class="div-menu outer-box1">
                                                     <h5>
                                                         <div class="div-menu1">
-                                                            <p class="menu-name">{v1.name}</p>
+                                                            <p class="menu-name">{v1.name}       
+                                                            Quantity:<input type="text" class="quantity" name="quantity" onChange={this.quantityChangeHandler}></input>
+                                                            </p>
 
                                                             <br />
                                                             {v1.desc}
+                                                            <br/>
+                                                            
                                                         </div></h5>
 
                                                     <div class="container1">
                                                         <img src={v1.imageUrl} class="img-div" />
                                                         <button class="btn" className="button-div" onClick={() => {this.addtoCart(v1)}}>${v1.price}+</button>
-                                                        {/* <Modal open={this.state.open} close={this.state.close} center focusTrappedr>
-                                                            
-                                                                <p>
-                                                                    <label>
-                                                                        Select Quantity
-                                                                        <input type="number" name="number" onChange={this.numberChangeHandler}/>
-                                                                    </label>
-                                                                </p>
-                                                                <button onClick={() => {
-                                                                    this.addtoCart(v1)}}>Submit</button>
-                                                                <button>Cancel</button>
-                                                            
-                                                        </Modal> */}
                                                     </div>
 
                                                 </div>
@@ -248,7 +285,7 @@ class details extends Component {
 
                             <img src="https://platinumroyalties.com/wp-content/uploads/2018/01/bjs.jpg" class="logo"></img></div>
                         <div>
-                            <h2 class="rest-name-div">Restaurant Name</h2>
+                            <h2 class="rest-name-div">{this.props.location.state.rName}</h2>
                             <h5 class="rest-name-div">Address</h5>
                         </div>
                     </div>
@@ -258,7 +295,8 @@ class details extends Component {
                     </div>
                 </div>
                 <div class="col-sm-3 details-main-divs">
-                    {Cart}
+                   <h2>Add to Cart</h2>
+                   <button onClick={this.goToCart}>Go to Cart</button>
                 </div>
             </div>
         )

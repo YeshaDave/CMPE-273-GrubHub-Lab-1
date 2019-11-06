@@ -51,7 +51,7 @@ class updateItems extends Component {
            // rName : sessionStorage.getItem('rName')
         }
         console.log(data)
-        axios.post('http://localhost:3001/addSection',data)
+        axios.post('http://54.183.178.69:3001/addSection',data)
                 .then((response) => {
                     console.log("Status Code : ",response.status);
                     if(response.status === 201){
@@ -110,7 +110,7 @@ class updateItems extends Component {
     
 
     componentDidMount(){
-        axios.post('http://localhost:3001/getSections')
+        axios.post('http://54.183.178.69:3001/getSections')
                 .then((response) => {
                 //update the state with the response data
                 console.log("inside componentDidMount")

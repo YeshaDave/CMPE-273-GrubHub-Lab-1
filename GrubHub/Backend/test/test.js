@@ -6,20 +6,35 @@ const app = require('../index.js');
 var supertest = require("supertest");
 global.request = supertest(app);
 var user_id = '';
-var phone = 4083332222;
-var updatedUserName = 'Test_Admin';
-var projectName = 'Test-Project' + Math.random();
+var phone = 11111111;
+
 var email = "test" + Math.random() + '@gmail.com';
 
 describe("Test Case", function () {
-    it('Sign Up Test', function () {
-        request.post('/bsignup')
+    it('Sign Up buyer Test', function () {
+        request.post('/buyerSignup1')
             .send({
                 fName: "test",
                 lName: "test",
-                email: email,
-                password: '123',
-                phone: phone
+                email: "tt@a.com",
+                password: '111',
+                phone: "1111111"
+            })
+            .expect(200)
+            .end(function (err, res) {
+                if (err) done(err);
+
+            });
+    })
+
+    it('Sign Up owner Test', function () {
+        request.post('/ownerSignup1')
+            .send({
+                name: "y",
+	            restaurantName: "d",
+	            email: "y@d.com",
+	            password: "111",
+	            zipCode: "112233"
 
             })
             .expect(200)
@@ -29,11 +44,12 @@ describe("Test Case", function () {
             });
     })
 
-    it('Log In Test', function () {
-        request.post('/buyerlogin')
+    
+    it('Log In buyer Test', function () {
+        request.post('/buyerLogin1')
             .send({
-                email: "aloo@gmail.com",
-                password: "123",
+                email: "tt@a.com",
+                password: "111",
             })
             .expect(200)
             .end(function (err, res) {
@@ -41,10 +57,23 @@ describe("Test Case", function () {
             });
     })
 
-    it('Search Fooditem Test', function () {
-        request.post('/BuyerHome')
+    it('Log In owner Test', function () {
+        request.post('/ownerLogin1')
             .send({
-               food: 'pizza'
+                email: "y@d.com",
+                password: "111",
+            })
+            .expect(200)
+            .end(function (err, res) {
+                if (err) done(err);
+            });
+    })
+
+
+    it('Search for restaurants by food name Test', function () {
+        request.post('/getRestaurants1')
+            .send({
+               item: 'pizza'
             })
             .expect(200)
             .end(function (err, res) {

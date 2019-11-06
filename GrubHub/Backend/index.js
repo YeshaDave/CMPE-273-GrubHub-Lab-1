@@ -6,8 +6,8 @@ var cookieParser = require('cookie-parser');
 var cors = require('cors');
 // app.set('view engine', 'ejs');
 
-
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+module.exports = app
+app.use(cors({ origin: 'http://54.183.18.86:3000', credentials: true }));
 
 app.use(session({
     secret              : 'cmpe273_kafka_passport_mongo',
@@ -20,7 +20,7 @@ app.use(session({
 app.use(bodyParser.json());
 
 app.use(function(req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.setHeader('Access-Control-Allow-Origin', 'http://54.183.18.86:3000');
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     res.setHeader('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS,POST,PUT,DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers');
@@ -32,7 +32,7 @@ app.use(cookieParser());
 let authFlag1 = false;  
 
 
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 
@@ -43,7 +43,8 @@ var editOwnerController = require('./controllers/editOwnerController');
 var ownerLogin1 = require('./controllers/ownerLogin1');
 var menuList = require('./controllers/menu');
 var orderController = require('./controllers/orderController');
-
+var signupMongo = require('./controllers/signupMongo');
+var loginMongo = require('./controllers/loginMongo')
 
 app.post('/buyerlogin',loginController.buyerlogin);
 app.post('/ownerlogin',loginController.ownerlogin);
@@ -65,9 +66,18 @@ app.post('/getOldOrders',orderController.getOldOrders);
 app.post('/getUpcomingOrders',orderController.getUpcomingOrders);
 app.post('/changeStatus',orderController.changeStatus);
 app.post('/deleteOrder',orderController.deleteOrder);
+app.post('/getCart1',orderController.getCart1)
 app.post('/addSection',menuList.addSection);
 app.post('/addtoCart',menuList.addtoCart);
-app.post('/getRestaurants',menuList.getRestaurants)
+app.post('/getCart',menuList.getCart);
+app.post('/getRestaurants1',menuList.getRestaurants1);
+app.post('/postMenu', menuList.postMenu);
+app.post('/buyerSignup1', signupMongo.buyerSignup);
+app.post('/ownerSignup1', signupMongo.ownerSignup);
+app.post('/buyerLogin1',loginMongo.buyerlogin);
+app.post('/ownerLogin1',loginMongo.ownerlogin);
+
+
 
 // app.post('/ownerlogin',function(req,res){loginController.ownerlogin});
 // app.post('/buyerSignup',function(req,res){signupController.buyerSignup});
