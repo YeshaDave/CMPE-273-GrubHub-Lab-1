@@ -16,13 +16,13 @@ class upcomingOrders extends Component{
     }  
 
     componentDidMount(){
-        axios.post('http://localhost:3001/getOldOrders')
+        axios.post('http://54.183.178.69:3001/getOldOrders')
                 .then((response) => {
                 //update the state with the response data
                 console.log("inside componentDidMount of Upcoming orders")
                 console.log(response)
                 this.setState({
-                    oldOrders : this.state.oldOrders.concat(response.data)
+                    oldOrders : this.state.oldOrders.concat(response.data.updatedList)
                 });
                 //this.state =  { authFlag2: cookie.load('cookie') }
                 //console.log(this.state.authFlag2);
@@ -32,45 +32,54 @@ class upcomingOrders extends Component{
 
 
     render(){
+        let UpcOrders = Object.values(this.state.upcOrders).map(upcOrders1 => {
+            console.log(upcOrders1)
+            return (
+                <tr class="row-border">
+                    {
+                        Object.keys(upcOrders1).map(key => {
+                            console.log(key)
 
-       
+                            return (
+                                <div class="c1"><th class="th1"><br />OrderID: {key}<br /><br />
+                                    {
+                                        upcOrders1[key].map(v1 => {
+                                          
+                                            return (
+                                                
+                                                <div class="">
+                                                    <h5>
+                                                        <div class="div-menu2">
+                                                            <p class="menu-name">{v1.item}       
+                                                           
+                                                            </p>
 
-        // let Item1 = for(let i=0; i< arr.length; i++){
-        //     return(
-        //         <li>
-        //          arr[i]
-        //         </li>
-        //     )
-        // }
-        let OldOrders = this.state.oldOrders.map(oldOrders => {
-            
-            //var img = menu.imageUrl
-           // var num=this.state.num;
-           var item = oldOrders.items
-           console.log("string",item)
-           var arr = item.split(",")
-           console.log("arr",arr)
-           if(oldOrders != null) 
-            return(
-                
-                <div class="container-fluid orders">
-                <div class="orders-card"></div>
-                <div>
-                <div class="col-md-3 inner-order">
-                <ul>
-                <li class="list font"><h3>{oldOrders.name}</h3></li>
-                <li class="list font1">{oldOrders.address}</li>
-                <li class="list font1">Total: ${oldOrders.total}</li>
-                </ul>
-                </div>
-                <div class="col-md-6 inner-order">
-                
-                </div>
-                </div>
-                </div>
+                                                            <br />
+                                                            {v1.price}
+                                                            <br/>
+                                                            
+                                                        </div></h5>
+
+                                                </div>
+                                                
+                                            )
+                                        })
+                                    }
+                               
+                                
+                                </th> 
+                                Total: 50$
+                                </div>
+                            )
+
+                        })
+                    }
+                </tr>
+
             )
+        })
        
-    })
+
 
         return(
             <div >
@@ -99,7 +108,7 @@ class upcomingOrders extends Component{
                 
 
                 <div class="col-md-9 profile-div">
-                {OldOrders}
+                {UpcOrders}
                 </div>
             </div>
         )

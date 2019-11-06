@@ -1,22 +1,27 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import '../../App.css';
 import axios from 'axios';
 //import cookie from 'react-cookies';
-//import {Redirect} from 'react-router';
+import {Redirect} from 'react-router';
 //import {Route} from 'react-router-dom';
 
 class addSection extends Component {
 
 
-    constructor() {
+    constructor(){
         super();
-        this.state = {
-            menu: [],
-            sections: [],
-            menu1: [],
-            v1: []
+        this.addSection = this.addSection.bind(this);
+        this.updateSection = this.updateSection.bind(this)
+        this.state = {  
+            sections : [],
+            isComponent: "",
+            msg : null,
+            flag : false,
+            section : "",
+            msg : "",
+            sectionName : ""
         }
-    }
+    }  
 
 
     // pictureChangeHandler = (e) => {
@@ -37,94 +42,162 @@ class addSection extends Component {
     //     })
     // }
 
+    submitSection = (e) => {
+        e.preventDefault();
+        console.log("inside submit section")
+        console.log(this.state.section)
+        const data = {
+            section : this.state.section,
+            rName : localStorage.getItem('restaurantNameme')
+        }
+        console.log(data)
+        axios.post('http://54.183.178.69:3001/addSection',data)
+                .then((response) => {
+                    console.log("Status Code : ",response.status);
+                    if(response.status === 201){
+                        this.setState({
+                            flag : true
+                        })
+                    }else{
+                        this.setState({
+                            flag : false,
+                            msg : 'Section already exists!'
+                        })
+                    }
+    })
+}
+
+
+    deleteSection = (e) => {
+        console.log("inside delete section")
+        this.setState({
+            sectionName : document.getElementsByName("sectionName").value
+        })
+        console.log(this.state.sectionName)
+        const data = {
+            sectionName : this.state.sectionName
+        }
+        console.log(data)
+    }
 
 
 
+    addSection() {
+        this.setState({isComponent: "add"});
+    }
 
+    updateSection() {
+        console.log("update called")
+        this.setState({isComponent: "update"});
+    }
 
-    componentDidMount() {
-        axios.post('http://localhost:3001/getMenu')
-            .then((response) => {
+    sectionChangeHandler = (e) => {
+        this.setState({
+            section : e.target.value
+        })
+      }
+
+      sectionChangeHandler1 = (e) => {
+        this.setState({
+            sectionName : e.target.value
+        })
+        console.log(this.state.sectionName)
+      }
+
+    
+
+    componentDidMount(){
+        const data = {
+            rName : sessionStorage.getItem('restaurantName')
+        }
+        axios.post('http://54.183.178.69:3001/getSections',data)
+                .then((response) => {
                 //update the state with the response data
                 console.log("inside componentDidMount")
                 this.setState({
-                    menu: this.state.menu.concat(response.data)
+                    sections : this.state.sections.concat(response.data.updatedList) 
                 });
                 //this.state =  { authFlag2: cookie.load('cookie') }
                 //console.log(this.state.authFlag2);
             });
-
     }
 
     render() {
-        let Menu = Object.values(this.state.menu).map(menu1 => {
-            console.log(menu1)
-            return (
-                <tr class="row-border p">
-                    {
-                        Object.values(menu1).map(key => {
-                            return (
-                                <p class="p">
-                                    {
-                                        key.map(v1 => {
-                                            console.log(v1.name)
-                                            return (
-                                                <p class="p">
-                                                    <td class="column-dimensions">{v1.name}</td>
-                                                    <td class="desc">{v1.desc}</td>
-                                                    <td class="column-dimensions"><img src={v1.imageUrl} class="img-div1" /></td>
-                                                    <td class="column-dimensions">{v1.price}$</td>
-                                                    <td><button class="btn btn-primary button font" onClick={this.updateSection}>Update</button></td>
-                                                    <td><button class="btn btn-primary button font">Delete</button></td>
-                                                </p>
-                                            )
-                                        })
-                                    }
-                                </p>
-                            )
+        let redirectVar = null;
+        console.log("Inside home.js")
+        console.log("inside create.js")
+        console.log("msg",this.state.msg)
+        if(this.state.flag == true){
+            console.log("redirect1")
+            redirectVar = <Redirect to= "/updateItems"/>
+        }
+        else{
+            console.log("redirect2")
+            redirectVar = <Redirect to= "/updateItems"></Redirect>
+        }
+        const isComponent = this.state.isComponent;
+        let Contents = null;
+        console.log(isComponent)
 
-                        })
-                    }
-                </tr>
+        if(isComponent == "add"){    
+            Contents = (
+                <div>
+                    Section Name <input type="text" onChange={this.sectionChangeHandler} name="section"></input><button onClick={this.submitSection}>Submit</button> <button>Cancel</button>
+                </div>);
+        }
 
+       else if(isComponent == "update"){    
+            Contents = (
+                <div>
+                    Section Name <input type="text"></input><button>Submit</button> <button>Cancel</button>
+                </div>);
+        }
+
+        
+        let Sections = this.state.sections.map(sections => {
+            if(sections != null)
+            return(
+                
+            <tr>
+                <td><input type="text" class="section-input" name="sectionName" value={sections.section}></input></td>
+                <td><button onClick={this.updateSection}>Rename</button></td>
+                <td><button onClick={this.deleteSection}>Delete</button></td>
+            </tr>
+                    // <div class="div-menu1"><img class="img-menu" src={img} /><button>{menu.price}</button></div>
+               
             )
         })
 
-
-
-        return (
-            <div class="container-fluid items-div">
-                <br />
-                <div class="col-md-2 items-inner-div">
-                    left div
-            </div>
-                <div class="col-md-10 items-inner-div">
+        return(
+            <div> 
+                {redirectVar}
+                
+                <h3>Update Sections</h3> <br/>
+                <div class="col-md-4"></div> 
+                <div class="col-md-4">
                     <div>
-                        <table class="table">
+                    <table class="table">
                             <thead>
-                                <tr class="row-border">
-                                    <th class="column-dimensions">Item</th>
-                                    <th class="desc">Description</th>
-                                    <th class="column-dimensions">Image</th>
-                                    <th class="column-dimensions">Price</th>
+                                <tr>
+                                    <th>Section</th>
+                                    <p>{this.state.msg}</p>
                                     <th></th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {Menu}
+                                {Sections}
                                 <tr>
-                                    <td><button class="btn btn-primary button font">Add Item</button></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td><button onClick={this.addSection}>Add Section</button></td>
                                     <td></td>
                                     <td></td>
                                 </tr>
                             </tbody>
-                        </table>
+                    </table>
                     </div>
+                    <div>{Contents}</div>
                 </div>
+                <div class="col-md-4"></div>     
             </div>
         )
     }

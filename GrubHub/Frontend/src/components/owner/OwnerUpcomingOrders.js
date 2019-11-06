@@ -52,7 +52,7 @@ class OwnerUpcomingOrders extends Component {
 
         axios.defaults.withCredentials = true;
         //make a post request with the user data
-        axios.post('http://localhost:3001/changeStatus', data)
+        axios.post('http://54.183.178.69:3001/changeStatus', data)
             .then(response => {
                 console.log("Status Code : ", response.status);
                 if (response.status === 201) {
@@ -71,16 +71,16 @@ class OwnerUpcomingOrders extends Component {
     }
 
 
-    deleteOrder = () => {
-
+    deleteOrder = (key) => {
+        console.log("inside cancel status")
         const data = {
             //id: sessionStorage.getItem('rId')
-            id: this.state.id
+            orderID: key
         }
 
         axios.defaults.withCredentials = true;
         //make a post request with the user data
-        axios.post('http://localhost:3001/deleteOrder', data)
+        axios.post('http://54.183.178.69:3001/deleteOrder', data)
             .then(response => {
                 console.log("Status Code : ", response.status);
                 if (response.status === 201) {
@@ -102,13 +102,13 @@ class OwnerUpcomingOrders extends Component {
 
 
     componentDidMount() {
-        axios.post('http://localhost:3001/getUpcomingOrders')
+        axios.post('http://54.183.178.69:3001/getCart1')
             .then((response) => {
                 //update the state with the response data
                 console.log("inside componentDidMount of Upcoming orders")
                 console.log(response)
                 this.setState({
-                    upcOrders: this.state.upcOrders.concat(response.data)
+                    upcOrders: this.state.upcOrders.concat(response.data.updatedList)
                 });
                 //this.state =  { authFlag2: cookie.load('cookie') }
                 //console.log(this.state.authFlag2);
@@ -118,44 +118,56 @@ class OwnerUpcomingOrders extends Component {
 
 
     render() {
-        let UpcOrders = this.state.upcOrders.map(upcOrders => {
+        let UpcOrders = Object.values(this.state.upcOrders).map(upcOrders1 => {
+            console.log(upcOrders1)
+            return (
+                <tr class="row-border">
+                    {
+                        Object.keys(upcOrders1).map(key => {
+                            console.log(key)
 
-            //var img = menu.imageUrl
-            // var num=this.state.num;
-            var item = upcOrders.items
-            console.log("string", item)
-            var arr = item.split(",")
-            console.log("arr", arr)
-            if (upcOrders != null)
-                return (
+                            return (
+                                <div class="c1"><th class="th1"><br />OrderID: {key}<br /><br />
+                                    {
+                                        upcOrders1[key].map(v1 => {
+                                          
+                                            return (
+                                                
+                                                <div class="">
+                                                    <h5>
+                                                        <div class="div-menu2">
+                                                            <p class="menu-name">{v1.item}       
+                                                           
+                                                            </p>
 
-                    <div class="container-fluid orders">
-                        <div class="orders-card"></div>
-                        <div>
-                            <div class="col-md-3 inner-order">
-                                <ul>
-                                    <li class="list font"><h3>{upcOrders.name}</h3></li>
-                                    <li class="list font1">{upcOrders.address}</li>
-                                    <li class="list font1">Total: ${upcOrders.total}</li>
-                                    <li class="list font1">{upcOrders.status}</li>
-                                </ul>
-                            </div>
-                            <div class="col-md-6 inner-order">
-                                <br /><br />
-                                <button class="button">Cancel Order</button>
+                                                            <br />
+                                                            {v1.price}
+                                                            <br/>
+                                                            
+                                                        </div></h5>
+
+                                                </div>
+                                                
+                                            )
+                                        })
+                                    }
+                                {/* <button onClick={() => {this.deleteOrder(key)}}>Cancel Order</button> */}
                                 <select onChange={this.statusChangeHandler}>
                                     <option value="new">New</option>
                                     <option value="preparing">Preparing</option>
                                     <option value="ready">Ready</option>
                                     <option value="delivered">Delivered</option>
                                 </select>
-                                <button class="button" onClick={(e) => { this.changeStatus(e,upcOrders.id)
+                                <button class="button" onClick={(e) => { this.changeStatus(e,key)
                                                         }}>Update Status</button>
-                            </div>
-                        </div>
-                    </div>
-                )
+                                </th> </div>
+                            )
 
+                        })
+                    }
+                </tr>
+
+            )
         })
 
 

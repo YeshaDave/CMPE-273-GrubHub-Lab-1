@@ -7,7 +7,23 @@ var app = express();
 // app.set('view engine', 'ejs');
 var mysql = require('mysql');
 var crypt = require('./crypt1');
-var connection = require('./config')
+//var connection = require('./config')
+// var mongo = require('mongodb').MongoClient;
+// var url = "mongodb://52.53.224.192:27017/grubhub";
+// var mongoose = require('mongoose');
+var mongoose = require('./connection');
+// mongoose.Promise = global.Promise;
+
+// mongoose.connect('mongodb://admin:admin@52.53.224.192:27017/grubhub', function(err, db) { 
+//     if (err) throw err;
+//     console.log("Database created!");
+// });
+
+// mongo.connect(url, function(err, db) {
+//     if (err) throw err;
+//     console.log("Database created!");
+//     db.close();
+//   });
 
 
 

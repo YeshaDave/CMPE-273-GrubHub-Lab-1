@@ -64,7 +64,7 @@ class Editname extends Component {
         //set the with credentials to true
         axios.defaults.withCredentials = true;
         //make a post request with the user data
-        axios.post('http://localhost:3001/editBuyerName',data)
+        axios.post('http://54.183.178.69.85:3001/editBuyerName',data)
             .then(response => {
                 console.log("Status Code : ",response.status);
                 if(response.status === 201){
@@ -97,7 +97,7 @@ class Editname extends Component {
         //set the with credentials to true
         axios.defaults.withCredentials = true;
         //make a post request with the user data
-        axios.post('http://localhost:3001/editBuyerEmail',data)
+        axios.post('http://54.183.178.69.85:3001/editBuyerEmail',data)
             .then(response => {
                 console.log("Status Code : ",response.status);
                 if(response.status === 201){

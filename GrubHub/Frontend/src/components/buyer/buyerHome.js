@@ -1,16 +1,62 @@
 import React, {Component} from 'react';
 import '../../App.css';
-//import axios from 'axios';
+import axios from 'axios';
 //import cookie from 'react-cookies';
 //import {Redirect} from 'react-router';
 //import {Route} from 'react-router-dom';
-
+import { connect } from "react-redux";
+import { Field, reduxForm } from "redux-form";
+import uuid from 'uuid/v1';
 
 class buyerHome extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            item : "",
+       }
+       }
+
+    itemChangeHandler = (e) => {
+        this.setState({
+            item : e.target.value
+        })
+    }
+
+    renderField(field) {
+        const { meta: { touched, error } } = field;
+        const className = `form-group ${touched && error ? "has-danger" : ""}`;
+
+        return (
+            <div >
+                <label>{field.label}</label>
+                <input class="search-bar" type="text" {...field.input} />
+                <div >
+                    {touched ? error : ""}
+                </div>
+            </div>
+        )
+    }
+
+    // submitLogin(values) {
+    //     this.props.search(values);
+    //     console.log(this);
+    // }
+
+    goTo = (index) => {
+        console.log("item",this.state.item)
+      // sessionStorage.getItem('rid')
+       // console.log(this.state.rId)
+        this.props.history.push({
+            pathname: '/search',
+            state: {
+                item : this.state.item
+            }
+        })
+    }
 
     render() {
-
+        const { handleSubmit } = this.props;
         return (
         <div>
             <div class="home-background">
@@ -18,12 +64,17 @@ class buyerHome extends Component {
             <br/><br/>
             <br/>
             <div class="col-md-3"></div>
+            {/* <form onSubmit={handleSubmit(this.submitLogin.bind(this))}> */}
             <div class="col-md-5 div-home">
+            
             <h2 class="title-font-white">Who delivers in your neighborhood?</h2>
-                <input type="text" class="search-bar" name="search" id="search"></input>
-                <button class="search-bar-find search-bar-text">Find food</button>
+            {/* <Field name="search" component={this.renderField}/> */}
+                <input type="text" class="search-bar" name="search" id="search" onChange={this.itemChangeHandler}></input>
+                <button class="search-bar-find search-bar-text" onClick={this.goTo}>Find food</button>
                 <br></br><br/><br/>
             </div>
+            {/* </form> */}
+
             <div class="col-md-2"></div>
             <br/><br/><br/><br/><br/><br/>
             </div>
@@ -53,3 +104,57 @@ class buyerHome extends Component {
 }
 
 export default buyerHome;
+
+// function validate(values){
+
+//     let errors = {};
+    
+//     if(!values.search){
+//         errors.search = "";
+//     }
+// }
+
+// const mapStateToProps = state => {
+//     return {
+//         authFlag: state.bSignup.authFlag,
+//         errormsg: state.bSignup.errormsg
+//     }
+// }
+
+
+
+// const mapDispatchStateToProps = dispatch => {
+//     return {
+//         // this.props.history.push({
+//         //     pathname: '/search',
+//         //     state: {
+//         //         item : this.state.item
+//         //     }
+//         // })
+//         search: (values) => {
+//             const data = {
+//                 name : values.name,
+//                 restName : values.restName,
+//                 zCode : values.zCode,
+//                 email: values.email,
+//                 password: values.password
+//             }
+//             //data["isRecruiter"] = recruiter
+
+//             axios.defaults.withCredentials = true;
+//             axios.post('http://54.183.178.69:3001/ownerSignup1', data)
+//                 .then((response) => {
+//                     console.log(response.data)
+//                     dispatch({ type: 'SIGNUP', payload: response.data, statusCode: response.status })
+//                 })
+//                 .catch((error) => {
+//                     dispatch({ type: 'SIGNUP', payload: error.response.data, statusCode: error.response.data.status })
+//                 });
+//         }
+//     }
+// }
+
+// export default reduxForm({
+//     validate,
+//     form: "bSignup"
+// })(connect(mapStateToProps, mapDispatchStateToProps)(buyerHome));

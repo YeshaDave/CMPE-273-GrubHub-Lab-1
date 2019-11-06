@@ -35,13 +35,19 @@ class menuList extends Component {
     // }
 
     componentDidMount(){
-        axios.post('http://localhost:3001/getMenu')
+        const data = {
+            //rId: this.props.location.state.rId,
+            rName: sessionStorage.getItem('restaurantName')
+        }
+        console.log("restaurant: ",sessionStorage.getItem('restaurantName'))
+        axios.post('http://54.183.178.69:3001/getMenu1',data)
                 .then((response) => {
                 //update the state with the response data
                 console.log("inside componentDidMount")
                 this.setState({
-                    menu : this.state.menu.concat(response.data) 
+                    menu : this.state.menu.concat(response.data.updatedList) 
                 });
+                console.log(this.state.menu)
                 //this.state =  { authFlag2: cookie.load('cookie') }
                 //console.log(this.state.authFlag2);
             });
@@ -49,25 +55,54 @@ class menuList extends Component {
 
     render() {
        
-        let Menu = this.state.menu.map(menu => {
-            if(menu != null)
-            var img = menu.imageUrl
-           // var img = "./pizza.gif"
-           //var img = "https://recipes.timesofindia.com/thumb/53110049.cms?imgsize=148092&width=800&height=800"
-           //console.log(img)
-            return(
-                
-                    <div class="div-menu outer-box1"><h5>
-                    <div class="div-menu1">{menu.name}</div></h5>
-                   
-                    <div class="container1">
-                    <img src={img} class="img-div"/>
-                    <button class="btn" class="button-div">${menu.price}+</button>
-                    </div>
-                   
-                    </div>
-                    // <div class="div-menu1"><img class="img-menu" src={img} /><button>{menu.price}</button></div>
-               
+        let Menu = Object.values(this.state.menu).map(menu1 => {
+            console.log(menu1)
+            return (
+                <tr class="row-border">
+                    {
+                        Object.keys(menu1).map(key => {
+                            console.log(key)
+
+                            return (
+                                <div class="c1"><th class="th1"><br />{key}<br /><br />
+                                    {
+                                        menu1[key].map(v1 => {
+                                            //console.log(v1)
+                                            //let _this1 = this;
+                                            //_this.v1=v1;
+                                            //alert(v1)
+                                            return (
+                                                
+                                                <div class="div-menu outer-box1">
+                                                    <h5>
+                                                        <div class="div-menu1">
+                                                            <p class="menu-name">{v1.name}       
+                                                            {/* Quantity:<input type="text" class="quantity" name="quantity" onChange={this.quantityChangeHandler}></input> */}
+                                                            </p>
+
+                                                            <br />
+                                                            {v1.desc}
+                                                            <br/>
+                                                            
+                                                        </div></h5>
+
+                                                    <div class="container1">
+                                                        <img src={v1.imageUrl} class="img-div" />
+                                                        {/* <button class="btn" className="button-div" onClick={() => {this.addtoCart(v1)}}>${v1.price}+</button> */}
+                                                    </div>
+
+                                                </div>
+                                                
+                                            )
+                                        })
+                                    }
+                                </th> </div>
+                            )
+
+                        })
+                    }
+                </tr>
+
             )
         })
 
@@ -100,7 +135,7 @@ class menuList extends Component {
                 <div class="col-md-6"></div> 
                 <div class="col-md-2"><a href="/updateItems"><h4>Update Sections</h4></a> </div>
                 <div class="col-md-4">
-                <h4><a>Update Items</a></h4> </div>     
+                <h4><a href="/addItem">Update Items</a></h4> </div>     
                 {Menu}
             </div>
             </div>

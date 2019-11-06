@@ -23,7 +23,8 @@ import AddSections from './owner/addSection';
 //import MenuItems from './owner/menuItems';
 import OPastOrders from './owner/OwnerPastOrders';
 import OUpcomingOrders from './owner/OwnerUpcomingOrders';
-
+import addItem from './owner/addItemform';
+import cart from './buyer/cart';
 
 class Main extends Component {
     render(){
@@ -52,6 +53,8 @@ class Main extends Component {
                 <Route path="/oPastOrders" component={OPastOrders}/>
                 <Route path="/oUpcomingOrders" component={OUpcomingOrders}/>
                 <Route path="/oHome" component={OwnerHome}/>
+                <Route path="/addItem" component={addItem}/>
+                <Route path="/cart" component={cart}/>
                 {/* <Route path="/osignup1" component={OSignup}/> */}
             </div>
         )
